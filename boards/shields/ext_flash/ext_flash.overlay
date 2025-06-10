@@ -5,9 +5,7 @@
     chosen {
         zmk,kscan = &kscan0;
 		// zmk,matrix-transform = &matrix_transform0;
-        zephyr,display = &st7789v_st7789v_waveshare_240x240;
 		zmk,physcial-layout = <&physical_layout0>;
-		zmk,display-led = &disp_led;
 		// zephyr,settings-partition = &storage;
     };
 	
