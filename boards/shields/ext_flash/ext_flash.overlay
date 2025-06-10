@@ -1,0 +1,107 @@
+#include "ext_flash-layouts.dtsi"
+#include <dt-bindings/zmk/matrix_transform.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+		// zmk,matrix-transform = &matrix_transform0;
+        zephyr,display = &st7789v_st7789v_waveshare_240x240;
+		zmk,physcial-layout = <&physical_layout0>;
+		zmk,display-led = &disp_led;
+		// zephyr,settings-partition = &storage;
+    };
+	
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-direct";
+        wakeup-source;
+
+        input-gpios
+            = <&gpio0 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&gpio0 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&gpio0 24 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&gpio0 25 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            ;
+    };
+
+	matrix_transform0: matrix_transform_0 {
+		compatible = "zmk,matrix-transform";
+		rows = <2>;
+		columns = <2>;
+		map = <
+			RC(0,0) RC(0,1)
+			RC(1,0) RC(1,1)
+		>;
+	};
+};
+
+&physical_layout0 {
+	kscan = <&kscan0>;
+	transform = <&matrix_transform0>;
+};
+
+// &spi3 {
+//     status = "okay";
+//     cs-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;  /* CS pin */
+
+//     w25q128: w25q128@0 {
+//         status = "okay";
+//         compatible = "jedec,spi-nor";
+//         reg = <0>;  /* CS line 0 */
+//         spi-max-frequency = <8000000>;
+//         size = <0x1000000>;
+//         label = "W25Q128";
+//         jedec-id = [ef 40 18];  /* Manufacturer and device ID for W25Q128JV */
+
+//         // has-dpd;
+//         // t-enter-dpd = <20000>;
+//         // t-exit-dpd = <100000>;
+//         partitions {
+//             compatible = "fixed-partitions";
+//             #address-cells = <1>;
+//             #size-cells = <1>;
+
+//             storage: partition@0 {
+//                 label = "settings";
+//                 reg = <0x0 DT_SIZE_K(128)>;
+//             };
+//         };
+//     };
+// };
+
+&mx25r64 {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        storage_partition: partition@0 {
+            label = "settings";
+            reg = <0x0 DT_SIZE_K(128)>;
+        };
+    };
+};
+
+&flash0 {
+    /*
+     * For more information, see:
+     * http://docs.zephyrproject.org/latest/devices/dts/flash_partitions.html
+     */
+	 partitions {
+		// compatible = "fixed-partitions";
+		// #address-cells = < 0x1 >;
+		// #size-cells = < 0x1 >;
+		// boot_partition: partition@0 {
+		// 	label = "mcuboot";
+		// 	reg = < 0x0 0xc000 >;
+		// };
+		// slot0_partition: partition@c000 {
+		// 	label = "image-0";
+		// 	reg = < 0xc000 0x76000 >;
+		// };
+		// slot1_partition: partition@82000 {
+		// 	label = "image-1";
+		// 	reg = < 0x82000 0x76000 >;
+		// };
+		/delete-node/ partition@f8000;
+	};
+};

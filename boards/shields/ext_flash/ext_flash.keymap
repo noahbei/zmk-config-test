@@ -1,0 +1,116 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/widgets.h>
+#include <dt-bindings/zmk/layers.h>
+#include <dt-bindings/zmk/layer_menu.h>
+
+
+/ {
+    behaviors {
+        ttog: tap_cycle_hold_layer {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            /*quick-tap-ms = <200>;*/
+            bindings = <&to>, <&to>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            display-name = "default";
+            bindings = <
+                &kp A    &lay LAY_NXT
+                &wid WID_PRV   &wid WID_NXT
+            >;
+        };
+
+        bt_layer {
+            display-name = "bluetooth";
+            bindings = <
+                &bt BT_SEL 0    &lay LAY_NXT
+                &bt BT_SEL 1    &bt BT_CLR
+            >;
+        };
+
+        output_layer {
+            display-name = "menusel";
+            bindings = <
+                &laym LAYM_SEL   &lay LAY_NXT
+                &laym LAYM_PRV    &laym LAYM_NXT
+            >;
+        };
+
+        studio_layer {
+            display-name = "studio";
+            bindings = <
+                &studio_unlock   &lay LAY_NXT
+                &kp C    &kp D
+            >;
+        };
+
+        layer_layer {
+            display-name = "layers";
+            bindings = <
+            /* tapping our layer key here should go to the next layer given whatever layer the user was on.
+               currently, it just goes to an arbitrary layer
+            */
+                &to 0    &lay LAY_NXT
+                &to 2    &to 3
+            >;
+        };
+
+        widget_layer {
+            display-name = "widget";
+            bindings = <
+                &wid WID_SEL 1   &lay LAY_NXT
+                &wid WID_SEL 2   &wid WID_SEL 3
+            >;
+        };
+
+        extra1 {
+            status = "reserved";
+        };
+
+        extra2 {
+            status = "reserved";
+        };
+
+        extra3 {
+            status = "reserved";
+        };
+
+        extra4 {
+            status = "reserved";
+        };
+
+        extra5 {
+            status = "reserved";
+        };
+
+        extra6 {
+            status = "reserved";
+        };
+
+        extra7 {
+            status = "reserved";
+        };
+
+        extra8 {
+            status = "reserved";
+        };
+
+        extra9 {
+            status = "reserved";
+        };
+
+        extra10 {
+            status = "reserved";
+        };
+    };
+};
